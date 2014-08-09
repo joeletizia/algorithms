@@ -1,5 +1,5 @@
 public class Percolation {
-  int grid[];
+  private int grid[];
   private static final int BLOCKED = 0;
   private static final int FULL_OPEN = 1;
   private static final int EMPTY_OPEN = 2;
@@ -15,7 +15,7 @@ public class Percolation {
       grid[i] = BLOCKED;
     }
 
-    quickUnion = new WeightedQuickUnionUF(n);
+    quickUnion = new WeightedQuickUnionUF(n*n);
   }
 
   /*
@@ -39,12 +39,16 @@ public class Percolation {
   }
 
   /*
-   * true if there is a full site in the bottom row
+   * true if there is a connection between the top row and the bottom row.
    */
   public boolean percolates(){
-    for(int i = 0; i < ROW_LENGTH ; i++){
-      for(int j = ROW_LENGTH; j > 0; j--){
-        if(quickUnion.connected(grid[i], grid[j)]){
+    // loop through the first row
+    for(int i = 1; i <= ROW_LENGTH; i++) {
+      //loop through the last row 
+      int rowLengthSquared = ROW_LENGTH*ROW_LENGTH;
+      for(int j = rowLengthSquared - 1; j >= rowLengthSquared - ROW_LENGTH; j--) {
+        // StdOut.println("j: " + j + " i: " + i);
+        if(quickUnion.connected(i, j)) {
           return true;
         }
       }
@@ -95,12 +99,27 @@ public class Percolation {
 
     assert perc.location(1,2) == 1;
     assert perc.location(5,5) == 24;
+    assert perc.location(1,1) == 0;
 
     assert perc.isOpen(1,2) == false;
     perc.open(1,2);
     assert perc.isOpen(1,2) == true;
-    assert perc.percolates() == false;
 
+    int count = perc.quickUnion.count();
+    assert count == 25;
+
+    perc.open(1,3);
+    assert perc.isOpen(1,3) == true;
+
+    count = perc.quickUnion.count();
+    assert count == 24;
+
+    assert perc.percolates() == false;
+    for(int i = 1; i <= 5; i++) {
+      perc.open(i,3);
+    }
+
+    assert perc.percolates() == true;
     StdOut.println("Tests Passed!");
   }
 }
