@@ -22,9 +22,13 @@ public class Percolation {
    * To open a cell basically means to connect it to its adjacent cells open cells.
    */
   public void open(int i, int j){
+    boundsCheck(i, j);
     grid[location(i,j)] = EMPTY_OPEN;
 
     connectToAdjacentOpen(i,j);
+    if(quickUnion.find(location(i,j)) < ROW_LENGTH){
+      grid[location(i,j)] = FULL_OPEN;
+    }
   }
   public boolean isOpen(int i, int j){
     boundsCheck(i, j);
@@ -36,6 +40,17 @@ public class Percolation {
     boundsCheck(i, j);
 
     return grid[location(i,j)] == FULL_OPEN;
+  }
+
+  public int numberOfOpen(){
+    int count = 0;
+    for(int value : grid) {
+      if(value != BLOCKED){
+        count++;
+      }
+    }
+
+    return count;
   }
 
   /*
@@ -102,6 +117,7 @@ public class Percolation {
     assert perc.location(1,1) == 0;
 
     assert perc.isOpen(1,2) == false;
+    assert perc.isFull(1,2) == false;
     perc.open(1,2);
     assert perc.isOpen(1,2) == true;
 
@@ -109,6 +125,7 @@ public class Percolation {
     assert count == 25;
 
     perc.open(1,3);
+    assert perc.numberOfOpen() == 2;
     assert perc.isOpen(1,3) == true;
 
     count = perc.quickUnion.count();
@@ -116,10 +133,13 @@ public class Percolation {
 
     assert perc.percolates() == false;
     for(int i = 1; i <= 5; i++) {
-      perc.open(i,3);
+      perc.open(i,5);
     }
 
     assert perc.percolates() == true;
+    assert perc.isFull(5,3) == false;
+    assert perc.isFull(1,5) == true;
+    assert perc.numberOfOpen() == 7;
     StdOut.println("Tests Passed!");
   }
 }

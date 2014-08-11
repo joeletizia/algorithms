@@ -19,9 +19,6 @@
 
 Initializing functions and beginning installation...
 
-Creating installation directory at
-/Users/joeletizia/algs4
-
 #### Step 1 - Java #################################################
 
 Java is already installed.
@@ -41,12 +38,6 @@ to
 
 Granting executable permission to
 /usr/local/bin/javac-algs4
-
-Creating Java library directory at
-/Users/joeletizia/Library/Java
-
-Creating Java extensions directory at
-/Users/joeletizia/Library/Java/Extensions
 
 #### Step 2 - Textbook Libraries ##################################
 
@@ -109,6 +100,9 @@ Granting executable permission to
 /usr/local/bin/findbugs-algs4
 
 #### Step 5 - DrJava ##############################################
+
+Deleting old version of DrJava at
+/Applications/DrJava.app
 
 Downloading DrJava from
 http://algs4.cs.princeton.edu/mac/drjava-osx.tar.gz
